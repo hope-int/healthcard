@@ -9,35 +9,31 @@
             // Get the current URL path
             const path = window.location.pathname;
             
-            // Extract the folder name (what comes after the last "/")
-            const parts = path.split('/');
+            // 1. Split by '/' and remove any empty items (fixes issues with trailing slashes like /h407/)
+            const parts = path.split('/').filter(part => part.length > 0);
+            
+            // 2. Get the very last part of the URL (e.g., "h407")
             const folderName = parts[parts.length - 1];
             
-            // Check if the folder name matches the pattern h### where ### is 3 digits
+            // Check if we actually found a folder name
+            if (!folderName) return;
+
+            // Check if the folder name matches the pattern h### (h followed by 3 digits)
             const match = folderName.match(/^h(\d{3})$/);
             
             if (match) {
                 const number = parseInt(match[1]);
                 
-                // --- UPDATE HERE: Changed 500 to 600 ---
-                // Check if the number is between 317 and 600
+                // --- Range 1: 317 to 600 ---
                 if (number >= 317 && number <= 600) {
                     const redirectUrl = `https://balady-gov-su.vercel.app/eservices/healthissue/printedlicenses/uuid=04ebecaf01f54a89869fe5870df43e2e${folderName}.htm`;
-                    
-                    // Redirect to the corresponding URL
                     window.location.href = redirectUrl;
                     return;
                 }
-            }
-            
-            if (match) {
-                const number = parseInt(match[1]);
                 
-                // Check if the number is between 100 and 316
+                // --- Range 2: 100 to 316 ---
                 if (number >= 100 && number <= 316) {
                     const redirectUrl = `https://balady-gov-su.netlify.app/eservices/healthissue/printedlicenses/uuid=04ebecaf01f54a89869fe5870df43e2e${folderName}.htm`;
-                    
-                    // Redirect to the corresponding URL
                     window.location.href = redirectUrl;
                     return;
                 }
