@@ -6,38 +6,29 @@
     <title>إصدار شهادة صحية</title>
     <script>
         function redirectBasedOnPath() {
-            // Get the current URL path
             const path = window.location.pathname;
             
-            // Extract the folder name (what comes after the last "/")
-            const parts = path.split('/');
-            const folderName = parts[parts.length - 1];
-            
-            // Check if the folder name matches the pattern h### where ### is between 321-400
-            const match = folderName.match(/^h(\d{3})$/);
+            // Regex to find "h" followed by three digits, preceded by a slash or start of string,
+            // and followed by a slash or end of string. This ensures "h407" is isolated.
+            const regex = /(?:^|\/)h(\d{3})(?:\/|$)/;
+            const match = path.match(regex);
             
             if (match) {
+                // The full matched segment (e.g., /h407) is not used, 
+                // but the captured number (407) is in match[1].
                 const number = parseInt(match[1]);
-                
-                // Check if the number is between 317 and 400
-                if (number >= 317 && number <= 400) {
-                    // Format the redirect URL enni agane allagi just set if next number then the link to redirect so set ann ellam.
+                const folderName = `h${match[1]}`; // Reconstruct "h407"
+
+                // --- Range 1: 317 to 600 ---
+                if (number >= 317 && number <= 600) {
                     const redirectUrl = `https://balady-gov-su.vercel.app/eservices/healthissue/printedlicenses/uuid=04ebecaf01f54a89869fe5870df43e2e${folderName}.htm`;
-                    
-                    // Redirect to the corresponding URL
                     window.location.href = redirectUrl;
                     return;
                 }
-            }
-            if (match) {
-                const number = parseInt(match[1]);
                 
-                // Check if the number is between 317 and 400
+                // --- Range 2: 100 to 316 ---
                 if (number >= 100 && number <= 316) {
-                    // Format the redirect URL enni agane allagi just set if next number then the link to redirect so set ann ellam.
                     const redirectUrl = `https://balady-gov-su.netlify.app/eservices/healthissue/printedlicenses/uuid=04ebecaf01f54a89869fe5870df43e2e${folderName}.htm`;
-                    
-                    // Redirect to the corresponding URL
                     window.location.href = redirectUrl;
                     return;
                 }
@@ -59,14 +50,12 @@
         }
         
         .logo {
-            /* You can adjust the size of your logo here */
             width: 200px;
             height: auto;
         }
     </style>
 </head>
 <body>
-    <!-- Logo SVG -->
     <img src="https://balady-gov.vercel.app/HOPE.svg" alt="Logo" class="logo">
 </body>
 </html>
